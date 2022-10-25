@@ -52,7 +52,7 @@ public class EmitirLicencia extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		setTitle("Emitir licencia");
 		
 		textFielddniTitular = new JTextField();
 		textFielddniTitular.setBounds(39, 91, 174, 20);
