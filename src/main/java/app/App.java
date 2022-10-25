@@ -14,7 +14,9 @@ public class App {
        // Configuration configuration = new Configuration();
        // configuration.configure("hibernate.cfg.xml"); 
         EntityManager manager = ConnectionBD.conectar();
-       System.out.println(manager);
-     }
+       System.out.println(manager); 
+       
+    }
+    
     
 }
