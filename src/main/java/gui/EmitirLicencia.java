@@ -45,13 +45,14 @@ public class EmitirLicencia extends JFrame {
 	 * Create the frame.
 	 */
 	public EmitirLicencia() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1080, 720);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
 		
 		textFielddniTitular = new JTextField();
 		textFielddniTitular.setBounds(39, 91, 174, 20);
