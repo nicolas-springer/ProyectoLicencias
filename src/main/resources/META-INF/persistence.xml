@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+             http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+    version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+
+   <persistence-unit name="aplicacionlicencias">
+        <properties>
+            
+			<property name="hibernate.connection.url" value="jdbc:mysql://sql10.freesqldatabase.com/sql10528529"></property>
+	
+			<!-- Set User Name -->
+			<property name = "hibernate.connection.username" value="sql10528529"></property>
+	
+			<!-- Set Password -->
+			<property name = "hibernate.connection.password" value="askHnXDywQ"></property>
+	
+			<!-- Set Driver Name -->
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"></property>
+	
+	     	<property name="hibernate.default_schema" value="sql10528529"></property>
+	     	<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"></property>
+        </properties>
+    </persistence-unit>
+
+</persistence>
