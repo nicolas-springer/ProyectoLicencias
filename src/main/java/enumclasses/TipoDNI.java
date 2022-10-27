@@ -1,5 +1,6 @@
 package enumclasses;
 
 public enum TipoDNI {
-DNI, PASAPORTE;
+DNI, PASAPORTE, LC, LE;
+	
 }

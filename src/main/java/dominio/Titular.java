@@ -1,15 +1,12 @@
-package dto;
+package dominio;
 
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-
-import dominio.Clase;
 import enumclasses.TipoDNI;
 
-public class TitularDTO {
-
+public class Titular {
+	
 	private Integer id;
 	private String nombre; 
 	private String apellido; 
@@ -19,6 +16,6 @@ public class TitularDTO {
 	private String domicilio;
 	private String grupoYFactorSanguineo; 
 	private Boolean esDonante;
-	private ImageIcon imagen;
 	
+
 }

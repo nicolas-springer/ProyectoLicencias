@@ -7,6 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
+import org.apache.commons.validator.routines.EmailValidator;
+
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -18,11 +21,15 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JCheckBox;
@@ -44,8 +51,7 @@ public class AltaTitular extends JFrame {
 	private JTextField textFieldCalle;
 	private JTextField textFieldPiso;
 	private JTextField textFieldDto;
-	private JTextField textFieldGrupoS;
-	private JTextField textFieldFactorR;
+	private String mensajeError;
 
 	/**
 	 * Create the frame.
@@ -156,23 +162,13 @@ public class AltaTitular extends JFrame {
 		textFieldDto.setColumns(10);
 		textFieldDto.setBounds(490, 460, 100, 35);
 		
-		textFieldGrupoS = new JTextField();
-		textFieldGrupoS.setFont(new Font("Dialog", Font.PLAIN, 14));
-		textFieldGrupoS.setColumns(10);
-		textFieldGrupoS.setBounds(280, 520, 100, 35);
-		
-		textFieldFactorR = new JTextField();
-		textFieldFactorR.setFont(new Font("Dialog", Font.PLAIN, 14));
-		textFieldFactorR.setColumns(10);
-		textFieldFactorR.setBounds(490, 520, 100, 35);
+	
 		
 		contentPanePrincipal.add(textFieldEmail);
 		contentPanePrincipal.add(textFieldApellido);
 		contentPanePrincipal.add(textFieldNumeroDoc);
 		contentPanePrincipal.add(textFieldNombre);
 		contentPanePrincipal.add(textFieldCuil);
-		contentPanePrincipal.add(textFieldGrupoS);
-		contentPanePrincipal.add(textFieldFactorR);
 		contentPanePrincipal.add(textFieldPiso);
 		contentPanePrincipal.add(textFieldDto);
 		contentPanePrincipal.add(textFieldCalle);
@@ -250,8 +246,6 @@ public class AltaTitular extends JFrame {
 		TextPrompt placeHolderProvincia= new TextPrompt ("Provincia",textFieldProvincia);
 		TextPrompt placeHolderNumero= new TextPrompt ("Numero",textFieldNumero);
 		TextPrompt placeHolderCalle= new TextPrompt ("Calle",textFieldCalle);
-		TextPrompt placeHolderFactor= new TextPrompt ("Factor RH",textFieldFactorR);
-		TextPrompt placeHolderGrupo= new TextPrompt ("Grupo S",textFieldGrupoS);
 		TextPrompt placeHolderCuil= new TextPrompt ("Cuil",textFieldCuil);
 		TextPrompt placeHolderDepto= new TextPrompt ("Dpto",textFieldDto);
 		TextPrompt placeHolderPiso= new TextPrompt ("Piso",textFieldPiso);
@@ -264,9 +258,27 @@ public class AltaTitular extends JFrame {
 		
 		contentPanePrincipal.add(chckbxDonante);
 		
+		JComboBox comboBoxDocumento_1 = new JComboBox();
+		comboBoxDocumento_1.setModel(new DefaultComboBoxModel(new String[] {"Grupo Sanguineo", "A", "B", "AB", "0"}));
+		comboBoxDocumento_1.setFont(new Font("Dialog", Font.PLAIN, 14));
+		comboBoxDocumento_1.setBackground(Color.WHITE);
+		comboBoxDocumento_1.setBounds(256, 519, 152, 35);
+		contentPanePrincipal.add(comboBoxDocumento_1);
+		
+		JComboBox comboBoxDocumento_1_1 = new JComboBox();
+		comboBoxDocumento_1_1.setModel(new DefaultComboBoxModel(new String[] {"Factor RH", "+", "-"}));
+		comboBoxDocumento_1_1.setFont(new Font("Dialog", Font.PLAIN, 14));
+		comboBoxDocumento_1_1.setBackground(Color.WHITE);
+		comboBoxDocumento_1_1.setBounds(490, 519, 100, 35);
+		contentPanePrincipal.add(comboBoxDocumento_1_1);
+		
 		
 		//UTIL PARA IMAGE
 		
+		
+		//MSJ
+		
+	
 		
 		//BUTTON ACTIONS
 
@@ -317,8 +329,136 @@ public class AltaTitular extends JFrame {
 		});
 	
 		
+		btnConfirmar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+
+				if(validar()) {
+					
+					JOptionPane.showMessageDialog(null, "Datos cargados correctamente");;
+				}
+				
+				
+			}
+		});
 		
 		
+		
+		
+	}
+	
+	
+	private Boolean validar() {
+
+		if 	    (  textFieldApellido.getText().isEmpty() 
+				|| textFieldNombre.getText().isEmpty() 
+				|| !verificarDNI(textFieldNumeroDoc.getText().toString())
+				|| !EmailValidator.getInstance().isValid(textFieldEmail.getText().toString())
+				|| textFieldCuil.getText().isEmpty()
+				|| textFieldPais.getText().isEmpty()
+				|| textFieldProvincia.getText().isEmpty()
+				|| textFieldCiudad.getText().isEmpty()
+				|| textFieldNumero.getText().isEmpty()
+				|| textFieldCalle.getText().isEmpty()
+				) {
+		
+			if (textFieldApellido.getText().isEmpty()) {
+				textFieldApellido.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			} 
+			else {
+				textFieldApellido.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+				
+			}
+
+			if (textFieldNombre.getText().isEmpty()) {
+			textFieldNombre.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+		
+			}
+			else {
+			textFieldNombre.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		
+			}
+
+			if (!verificarDNI(textFieldNumeroDoc.getText().toString()) ) {
+			textFieldNumeroDoc.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			}
+			else {
+			textFieldNumeroDoc.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+			
+			}
+
+			if (textFieldCuil.getText().isEmpty()) {
+			textFieldCuil.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			
+			}
+			else {
+			textFieldCuil.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		
+			}
+
+			if (textFieldPais.getText().isEmpty()) {
+			textFieldPais.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			}
+			else {
+			textFieldPais.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+			}
+
+			if (!EmailValidator.getInstance().isValid(textFieldEmail.getText().toString())) {
+			textFieldEmail.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			} 
+			else {
+			textFieldEmail.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+			
+			}
+
+
+			if (textFieldCalle.getText().isEmpty()) {
+			textFieldCalle.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+		
+			} 
+			else {
+			textFieldCalle.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		
+			}
+
+			if (textFieldProvincia.getText().isEmpty()) {
+			textFieldProvincia.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			
+			}	
+			else {
+			textFieldProvincia.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		
+			}
+
+			if (textFieldCiudad.getText().isEmpty()) {
+			textFieldCiudad.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			}
+			else {
+			textFieldCiudad.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+			}
+			
+			if (textFieldNumero.getText().isEmpty()) {
+				textFieldNumero.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			}
+			else {
+			textFieldNumero.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+			}
+			
+			
+			JOptionPane.showMessageDialog(null, "Existen campos incorrectos o sin completar");
+		
+			return false;
+
+			} else return true; 
+		}
+		
+	
+private boolean verificarDNI(String dni) {
+		
+		Pattern pat = Pattern.compile("[0-9]{7,8}");
+	    Matcher mat = pat.matcher(dni); 
+	    return  mat.matches();
 		
 	}
 }
