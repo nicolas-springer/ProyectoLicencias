@@ -1,5 +1,9 @@
 package dao;
 
-public class TitularDAO {
+import dominio.Titular;
 
+public interface TitularDAO {
+
+	
+	public void guardarTitular(Titular titular);
 }

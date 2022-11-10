@@ -9,6 +9,9 @@ import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import org.apache.commons.validator.routines.EmailValidator;
 
+import dto.TitularDTO;
+import gestores.GestorTitular;
+import javassist.expr.NewArray;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -18,6 +21,7 @@ import util.TextPrompt;
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,7 +56,8 @@ public class AltaTitular extends JFrame {
 	private JTextField textFieldPiso;
 	private JTextField textFieldDto;
 	private String mensajeError;
-
+	
+	
 	/**
 	 * Create the frame.
 	 */
@@ -276,7 +281,9 @@ public class AltaTitular extends JFrame {
 		//UTIL PARA IMAGE
 		
 		
-		//MSJ
+		//UTIL
+		TitularDTO titularDTO = new TitularDTO();
+		GestorTitular gestorTitular = new GestorTitular();
 		
 	
 		
@@ -312,6 +319,9 @@ public class AltaTitular extends JFrame {
 					e1.printStackTrace();
 				}
 				
+				
+				
+				
 				JFileChooser imagen = new JFileChooser();
 				imagen.setMultiSelectionEnabled(false);
 				
@@ -335,8 +345,21 @@ public class AltaTitular extends JFrame {
 				
 
 				if(validar()) {
+					cargarDTO(titularDTO);
 					
-					JOptionPane.showMessageDialog(null, "Datos cargados correctamente");;
+					try {
+						gestorTitular.darDeAltaTitular(titularDTO);
+						JOptionPane.showMessageDialog(null, "Datos cargados correctamente");
+						
+						Menu jFrameMenu = new Menu();
+						jFrameMenu.setVisible(true);
+						dispose();
+						
+					} catch (Exception e2) {
+						JOptionPane.showMessageDialog(new JPanel(), e2.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+						// TODO: handle exception
+					}
+					
 				}
 				
 				
@@ -346,6 +369,13 @@ public class AltaTitular extends JFrame {
 		
 		
 		
+	}
+	
+	private void cargarDTO (TitularDTO dto) {
+		
+		dto.setApellido(textFieldApellido.getText().toString());
+		dto.setDni(textFieldNumeroDoc.getText().toString());
+		//completar
 	}
 	
 	
