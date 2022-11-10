@@ -1,21 +1,34 @@
 package dominio;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
+
+import javax.persistence.*;
 
 import enumclasses.TipoDNI;
 
+@Entity (name="titular")
+@Table 
 public class Titular {
 	
-	private Integer id;
-	private String nombre; 
-	private String apellido; 
-	private TipoDNI tipoDNI;
-	private String dni; 
-	private Date nacimiento;
-	private String domicilio;
-	private String grupoYFactorSanguineo; 
-	private Boolean esDonante;
+	@Id
+	@Column
+	@GeneratedValue (strategy = GenerationType.AUTO)
+	private Integer idTitular;
 	
-
+	@Column
+	private String nombre; 
+	@Column
+	private String apellido; 
+	@Column
+	private String dni; 
+	@Column
+	private LocalDate nacimiento;
+	@Column
+	private String domicilio;
+	@Column
+	private String grupoYFactorSanguineo; 
+	@Column
+	private Boolean esDonante;
+	@Column
+	private TipoDNI tipoDNITitular;
 }

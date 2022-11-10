@@ -1,21 +1,35 @@
 package dominio;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+import javax.persistence.*;
+//import enumclasses.TipoDNI;
+//import enumclasses.TipoLicencias;
 
 import enumclasses.TipoDNI;
-import enumclasses.TipoLicencias;
 
+
+@Entity (name="usuario")
+@Table 
 public class Usuario {
-
-	private Integer id;
+	@Id
+	@Column
+	@GeneratedValue (strategy = GenerationType.AUTO)
+	private Integer idUsuario;
+	@Column
 	private String nombre; 
+	@Column
 	private String apellido; 
-	private TipoDNI tipoDNI;
+	@Column
 	private String dni;
+	@Column
 	private String email;
-	private Date nacimiento;
-	private String user;
-	private String pass;
-	
+	@Column
+	private LocalDate nacimiento;
+	@Column
+	private String nickUsuario;
+	@Column
+	private String passUsuario;
+	@Column
+	private TipoDNI tipoDNIUsuario;
 }

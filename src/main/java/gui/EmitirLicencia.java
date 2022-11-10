@@ -27,11 +27,6 @@ public class EmitirLicencia extends JFrame {
 	private JPanel contentPanePrincipal;
 	private JTextField textFieldNumeroDoc;
 
-
-	
-	/**
-	 * Create the frame.
-	 */
 	public EmitirLicencia() {
 
 		setTitle("Nuevo usuario");
@@ -276,14 +271,31 @@ public class EmitirLicencia extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-
-				if(textFieldNumeroDoc.getText().toString().isEmpty()) {
+				String dni = textFieldNumeroDoc.getText().toString();
+				if(dni.isEmpty()) {
 					textFieldNumeroDoc.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 					JOptionPane.showMessageDialog(null, "Ingrese un numero de DNI");
 				}
-				else if(verificarDNI(textFieldNumeroDoc.getText().toString())) {
+				else if(verificarDNI(dni)) {
 					textFieldNumeroDoc.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 					JOptionPane.showMessageDialog(null, "se muestran los datos y se busca en BD");
+					
+					
+					/*
+					 * if(existeLicenciaParaDNI(dni)){
+					 * 		GestorLicencia.actualizarLicencia(unTitular, clase);
+					 *		 if(flag)OptionPane.showMessageDialog(null, "Licencia actualizada correctamente");
+					 * 		else OptionPane.showMessageDialog(null, "Error al actualizar la licencia, intente nuevamente.");
+					 * }
+					 * else{
+					 * String[] clase; //puede ser A y B juntas
+					 * Titular unTitular = GestorTitular.recuperarTitularDNI(dni)
+					 * boolean flag = GestorLicencia.darAltaLicencia(unTitular, clase)
+					 * 
+					 * 		if(flag)OptionPane.showMessageDialog(null, "Licencia cargada correctamente");
+					 *		 else OptionPane.showMessageDialog(null, "Error al cargar la licencia, intente nuevamente.");
+					 * }
+					 * */
 				}
 				else {
 					textFieldNumeroDoc.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
