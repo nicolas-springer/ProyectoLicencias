@@ -8,11 +8,12 @@
 
 
 <persistence-unit name="aplicacionlicencias">
-           
-           <class> dominio.Titular</class>
-           <class> dominio.Licencia</class>
-           <class> dominio.Clase</class>
-           <class> dominio.Usuario</class>
+     
+        <class> dominio.Titular</class>
+        <class> dominio.Licencia</class>
+        <class> dominio.Clase</class>
+        <class> dominio.Usuario</class>
+        <class> dominio.LicenciaClase</class>
         <properties>
             <property name="javax.persistence.jdbc.driver"
                 value="org.postgresql.Driver" /><!-- DB Driver -->
@@ -29,21 +30,10 @@
             <property name="hibernate.jdbc.use_get_generated_keys"
                 value="true" />
             <property name="hibernate.temp.use_jdbc_metadata_defaults"
-                value="false" />
-                
+                value="false" />     
+                  
         </properties>
+        
     </persistence-unit>
 
 </persistence>
-
-
-   <!--<persistence-unit name="aplicacionlicencias">
-        <properties>          
-			<property name="hibernate.connection.url" value="jdbc:mysql://sql10.freesqldatabase.com/sql10528529"></property>
-			<property name = "hibernate.connection.username" value="sql10528529"></property>
-			<property name = "hibernate.connection.password" value="askHnXDywQ"></property>
-			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"></property>
-	     	<property name="hibernate.default_schema" value="sql10528529"></property>
-	     	<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"></property>
-        </properties>
-    </persistence-unit>-->

@@ -25,6 +25,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,6 +42,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JCheckBox;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
+import com.toedter.calendar.JDateChooser;
 
 public class AltaTitular extends JFrame {
 
@@ -55,6 +59,14 @@ public class AltaTitular extends JFrame {
 	private JTextField textFieldCalle;
 	private JTextField textFieldPiso;
 	private JTextField textFieldDto;
+	private JComboBox<String> comboBoxDocumento;
+	private JComboBox<String> comboBoxSexo;
+	private JComboBox<String> comboBoxGrupoSanguineo;
+	private JCheckBox chckbxDonante;
+	private JComboBox<String> comboBoxFactorRH;
+	private JDateChooser dateChooser;
+	
+	
 	private String mensajeError;
 	
 	
@@ -186,18 +198,17 @@ public class AltaTitular extends JFrame {
 		//COMBOBOXS
 		
 		
-		JComboBox comboBoxDocumento = new JComboBox();
+		comboBoxDocumento = new JComboBox();
 		comboBoxDocumento.setBackground(new Color(255, 255, 255));
 		comboBoxDocumento.setFont(new Font("Dialog", Font.PLAIN, 14));
 		comboBoxDocumento.setBounds(70, 160, 100, 35);
-		comboBoxDocumento.setModel(new DefaultComboBoxModel(new String[] { "DNI", "LE", "LC", "PASAPORTE", "OTRO" }));
+		comboBoxDocumento.setModel(new DefaultComboBoxModel(new String[] { "DNI", "LE", "LC", "PASAPORTE"}));
 		
-		
-		JComboBox comboBoxSexo = new JComboBox();
+		comboBoxSexo = new JComboBox();
 		comboBoxSexo.setFont(new Font("Dialog", Font.PLAIN, 14));
 		comboBoxSexo.setBackground(Color.WHITE);
 		comboBoxSexo.setBounds(70, 280, 100, 35);
-		comboBoxSexo.setModel(new DefaultComboBoxModel(new String[] { "Masculino", "Femenino", "No indica" }));
+		comboBoxSexo.setModel(new DefaultComboBoxModel(new String[] {"SEXO","Masculino", "Femenino", "No indica" }));
 		
 		contentPanePrincipal.add(comboBoxSexo);
 		contentPanePrincipal.add(comboBoxDocumento);
@@ -229,15 +240,6 @@ public class AltaTitular extends JFrame {
 		contentPanePrincipal.add(btnFoto);
 		contentPanePrincipal.add(btnVolver);
 		contentPanePrincipal.add(btnConfirmar);
-		
-		
-		// CALENDAR
-		
-		
-		JLabel lblNewLabel_2 = new JLabel("CALENDARIO");
-		lblNewLabel_2.setFont(new Font("Dialog", Font.PLAIN, 17));
-		lblNewLabel_2.setBounds(437, 266, 123, 54);
-		contentPanePrincipal.add(lblNewLabel_2);
 
 
 		//PLACEHOLDERS
@@ -257,25 +259,36 @@ public class AltaTitular extends JFrame {
 		
 		//CHECKBOXS
 		
-		JCheckBox chckbxDonante = new JCheckBox("Donante");
+		chckbxDonante = new JCheckBox("Donante");
 		chckbxDonante.setFont(new Font("Dialog", Font.PLAIN, 14));
 		chckbxDonante.setBounds(73, 525, 97, 23);
 		
 		contentPanePrincipal.add(chckbxDonante);
 		
-		JComboBox comboBoxDocumento_1 = new JComboBox();
-		comboBoxDocumento_1.setModel(new DefaultComboBoxModel(new String[] {"Grupo Sanguineo", "A", "B", "AB", "0"}));
-		comboBoxDocumento_1.setFont(new Font("Dialog", Font.PLAIN, 14));
-		comboBoxDocumento_1.setBackground(Color.WHITE);
-		comboBoxDocumento_1.setBounds(256, 519, 152, 35);
-		contentPanePrincipal.add(comboBoxDocumento_1);
+		comboBoxGrupoSanguineo = new JComboBox();
+		comboBoxGrupoSanguineo.setModel(new DefaultComboBoxModel(new String[] {"Grupo Sanguineo", "A", "B", "AB", "0"}));
+		comboBoxGrupoSanguineo.setFont(new Font("Dialog", Font.PLAIN, 14));
+		comboBoxGrupoSanguineo.setBackground(Color.WHITE);
+		comboBoxGrupoSanguineo.setBounds(256, 519, 152, 35);
+		contentPanePrincipal.add(comboBoxGrupoSanguineo);
 		
-		JComboBox comboBoxDocumento_1_1 = new JComboBox();
-		comboBoxDocumento_1_1.setModel(new DefaultComboBoxModel(new String[] {"Factor RH", "+", "-"}));
-		comboBoxDocumento_1_1.setFont(new Font("Dialog", Font.PLAIN, 14));
-		comboBoxDocumento_1_1.setBackground(Color.WHITE);
-		comboBoxDocumento_1_1.setBounds(490, 519, 100, 35);
-		contentPanePrincipal.add(comboBoxDocumento_1_1);
+		comboBoxFactorRH = new JComboBox();
+		comboBoxFactorRH.setModel(new DefaultComboBoxModel(new String[] {"Factor RH", "+", "-"}));
+		comboBoxFactorRH.setFont(new Font("Dialog", Font.PLAIN, 14));
+		comboBoxFactorRH.setBackground(Color.WHITE);
+		comboBoxFactorRH.setBounds(490, 519, 100, 35);
+		contentPanePrincipal.add(comboBoxFactorRH);
+		
+		dateChooser = new JDateChooser();
+		dateChooser.setDateFormatString("dd/MM/yyyy");
+		dateChooser.setBounds(390, 295, 200, 20);
+		contentPanePrincipal.add(dateChooser);
+		
+		JLabel lblFijaFechaNacimiento = new JLabel("Fecha Nacimiento");
+		lblFijaFechaNacimiento.setForeground(Color.GRAY);
+		lblFijaFechaNacimiento.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblFijaFechaNacimiento.setBounds(390, 280, 200, 14);
+		contentPanePrincipal.add(lblFijaFechaNacimiento);
 		
 		
 		//UTIL PARA IMAGE
@@ -302,26 +315,17 @@ public class AltaTitular extends JFrame {
 		
 		btnFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				try {
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (InstantiationException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (IllegalAccessException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (UnsupportedLookAndFeelException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				
-				
-				
 				JFileChooser imagen = new JFileChooser();
 				imagen.setMultiSelectionEnabled(false);
 				
@@ -342,153 +346,153 @@ public class AltaTitular extends JFrame {
 		btnConfirmar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-
 				if(validar()) {
 					cargarDTO(titularDTO);
-					
 					try {
 						gestorTitular.darDeAltaTitular(titularDTO);
 						JOptionPane.showMessageDialog(null, "Datos cargados correctamente");
-						
 						Menu jFrameMenu = new Menu();
 						jFrameMenu.setVisible(true);
 						dispose();
-						
 					} catch (Exception e2) {
 						JOptionPane.showMessageDialog(new JPanel(), e2.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-						// TODO: handle exception
 					}
-					
 				}
-				
-				
 			}
 		});
-		
-		
-		
-		
+
 	}
 	
 	private void cargarDTO (TitularDTO dto) {
 		
-		dto.setApellido(textFieldApellido.getText().toString());
+		dto.setTipodni(this.comboBoxDocumento.getSelectedItem().toString());
 		dto.setDni(textFieldNumeroDoc.getText().toString());
-		//completar
+		dto.setApellido(textFieldApellido.getText().toString());
+		dto.setNombre(textFieldNombre.getText().toString());
+		dto.setCalle(textFieldCalle.getText().toString());
+		dto.setNumero(textFieldNumero.getText().toString());
+		dto.setPiso(textFieldPiso.getText().toString());
+		dto.setDepto(textFieldDto.getText().toString());
+		dto.setLocalidad(textFieldCiudad.getText().toString());
+		dto.setGrupoYFactorSanguineo(comboBoxGrupoSanguineo.getSelectedItem().toString()+comboBoxFactorRH.getSelectedItem().toString());
+		dto.setSexo(comboBoxSexo.getSelectedItem().toString());
+		dto.setEsDonante(chckbxDonante.isSelected());
+		
+		//LocalDate fechanac = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		//fechanac.format(dtf);
+		dto.setNacimiento(dateChooser.getDate());
 	}
 	
 	
 	private Boolean validar() {
 
-		if 	    (  textFieldApellido.getText().isEmpty() 
-				|| textFieldNombre.getText().isEmpty() 
-				|| !verificarDNI(textFieldNumeroDoc.getText().toString())
-				|| !EmailValidator.getInstance().isValid(textFieldEmail.getText().toString())
-				|| textFieldCuil.getText().isEmpty()
-				|| textFieldPais.getText().isEmpty()
-				|| textFieldProvincia.getText().isEmpty()
-				|| textFieldCiudad.getText().isEmpty()
-				|| textFieldNumero.getText().isEmpty()
-				|| textFieldCalle.getText().isEmpty()
-				) {
-		
-			if (textFieldApellido.getText().isEmpty()) {
-				textFieldApellido.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-			} 
-			else {
-				textFieldApellido.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-				
-			}
-
-			if (textFieldNombre.getText().isEmpty()) {
-			textFieldNombre.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-		
-			}
-			else {
-			textFieldNombre.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-		
-			}
-
+		String mensaje="Verifique los siguientes campos: \n";
+		Boolean flag = true;
 			if (!verificarDNI(textFieldNumeroDoc.getText().toString()) ) {
 			textFieldNumeroDoc.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				mensaje+="Numero DNI de 7 u 8 numeros. \n";
+				flag=false;
 			}
-			else {
-			textFieldNumeroDoc.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-			
-			}
+			else {textFieldNumeroDoc.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));}
 
 			if (textFieldCuil.getText().isEmpty()) {
 			textFieldCuil.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			mensaje+="Formate de CUIL incorrecto. \n";
+			flag=false;
+			}	
+			else {textFieldCuil.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));}
 			
+			if(!EmailValidator.getInstance().isValid(textFieldEmail.getText().toString())) {
+				textFieldEmail.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				mensaje+="Formato Email incorrecto. \n";
+				flag=false;
 			}
-			else {
-			textFieldCuil.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+			else {textFieldEmail.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));}
 		
+			if (textFieldApellido.getText().isEmpty()) {
+				textFieldApellido.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				flag=false;
+			} 
+			else {textFieldApellido.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));}
+
+			if (textFieldNombre.getText().isEmpty()) {
+			textFieldNombre.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			flag=false;
 			}
+			else {textFieldNombre.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));}
 
 			if (textFieldPais.getText().isEmpty()) {
 			textFieldPais.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			flag=false;
 			}
-			else {
-			textFieldPais.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-			}
-
-			if (!EmailValidator.getInstance().isValid(textFieldEmail.getText().toString())) {
-			textFieldEmail.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-			} 
-			else {
-			textFieldEmail.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-			
-			}
-
+			else {textFieldPais.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));}
 
 			if (textFieldCalle.getText().isEmpty()) {
 			textFieldCalle.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-		
+			flag=false;
 			} 
-			else {
-			textFieldCalle.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-		
-			}
+			else {textFieldCalle.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));}
 
 			if (textFieldProvincia.getText().isEmpty()) {
 			textFieldProvincia.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-			
-			}	
-			else {
-			textFieldProvincia.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-		
-			}
+			flag=false;}	
+			else {textFieldProvincia.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));}
 
 			if (textFieldCiudad.getText().isEmpty()) {
 			textFieldCiudad.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			flag=false;
 			}
-			else {
-			textFieldCiudad.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-			}
+			else {textFieldCiudad.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));}
 			
 			if (textFieldNumero.getText().isEmpty()) {
-				textFieldNumero.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			textFieldNumero.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			flag=false;
 			}
+			else {textFieldNumero.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));}
+			
+			if(comboBoxSexo.getSelectedIndex()==0) {
+			comboBoxSexo.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			mensaje+="Selecciones un Sexo \n";
+			flag=false;
+			}
+			else {comboBoxSexo.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));}
+			
+			if(comboBoxGrupoSanguineo.getSelectedIndex()==0) {
+			comboBoxGrupoSanguineo.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			mensaje+="Selecciones un Grupo Sanguineo \n";
+			flag=false;
+			}
+			else {comboBoxGrupoSanguineo.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));}
+			
+			if(comboBoxFactorRH.getSelectedIndex()==0) {
+			comboBoxFactorRH.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			mensaje+="Selecciones un FACTOR RH \n";
+			flag=false;
+			}
+			else {comboBoxFactorRH.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));}
+			
+			if (flag) return flag;
 			else {
-			textFieldNumero.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+				JOptionPane.showMessageDialog(null, mensaje);
+				return false;
 			}
-			
-			
-			JOptionPane.showMessageDialog(null, "Existen campos incorrectos o sin completar");
-		
-			return false;
-
-			} else return true; 
-		}
+	}
 		
 	
-private boolean verificarDNI(String dni) {
+	private boolean verificarDNI(String dni) {
 		
 		Pattern pat = Pattern.compile("[0-9]{7,8}");
 	    Matcher mat = pat.matcher(dni); 
 	    return  mat.matches();
 		
 	}
+	private boolean verificarCUIL(String cuil) { //ARMAR BIEN
+		
+		Pattern pat = Pattern.compile("[0-9]{9,10}");
+	    Matcher mat = pat.matcher(cuil); 
+	    return  mat.matches();
+		
+	}
+	
 }

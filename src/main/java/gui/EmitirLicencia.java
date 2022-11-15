@@ -7,6 +7,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import dominio.Clase;
+import dominio.Licencia;
+import dominio.Titular;
+import gestores.GestorLicencia;
+import gestores.GestorTitular;
 import util.TextPrompt;
 
 import javax.swing.JTextField;
@@ -18,6 +23,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 import javax.swing.JCheckBox;
@@ -26,7 +35,12 @@ public class EmitirLicencia extends JFrame {
 
 	private JPanel contentPanePrincipal;
 	private JTextField textFieldNumeroDoc;
-
+	private Titular titular =  new Titular();
+	private Licencia licencia;
+	private GestorTitular gTitular = new GestorTitular();
+	private GestorLicencia gLicencia = new GestorLicencia();
+	
+	
 	public EmitirLicencia() {
 
 		setTitle("Nuevo usuario");
@@ -112,6 +126,7 @@ public class EmitirLicencia extends JFrame {
 		btnCargarLicencia.setFont(new Font("Dialog", Font.PLAIN, 17));
 		btnCargarLicencia.setBackground(new Color(69,69,69));
 		btnCargarLicencia.setForeground(new Color(255, 255, 255));
+		btnCargarLicencia.setEnabled(false);
 		
 		
 		JButton btnVolver = new JButton("Volver");
@@ -184,6 +199,7 @@ public class EmitirLicencia extends JFrame {
 		chckbxA.setBounds(100, 500, 58, 23);
 		contentPanePrincipal.add(chckbxA);
 		
+		
 		JCheckBox chckbxB = new JCheckBox("B");
 		chckbxB.setFont(new Font("Dialog", Font.PLAIN, 16));
 		chckbxB.setBounds(200, 500, 58, 23);
@@ -214,49 +230,56 @@ public class EmitirLicencia extends JFrame {
 		chckbxG.setBounds(700, 500, 58, 23);
 		contentPanePrincipal.add(chckbxG);
 		
-		//DYNAMICS LABEL
+		JLabel lblTipoDocumentoCompletar = new JLabel("");
+		lblTipoDocumentoCompletar.setFont(new Font("Dialog", Font.PLAIN, 14));
+		lblTipoDocumentoCompletar.setBounds(100, 285, 155, 20);
+		contentPanePrincipal.add(lblTipoDocumentoCompletar);
 		
-		JLabel lblTipoDynamic = new JLabel("Prueba");
-		lblTipoDynamic.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblTipoDynamic.setBounds(100, 275, 100, 30);
-		contentPanePrincipal.add(lblTipoDynamic);
+		JLabel lblSexoCompletar = new JLabel("New label");
+		lblSexoCompletar.setFont(new Font("Dialog", Font.PLAIN, 14));
+		lblSexoCompletar.setBounds(100, 376, 155, 20);
+		contentPanePrincipal.add(lblSexoCompletar);
 		
-		JLabel lblNumeroDynamic = new JLabel("Prueba");
-		lblNumeroDynamic.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblNumeroDynamic.setBounds(400, 275, 100, 30);
-		contentPanePrincipal.add(lblNumeroDynamic);
+		JLabel lblNacimientoCompletar = new JLabel("New label");
+		lblNacimientoCompletar.setFont(new Font("Dialog", Font.PLAIN, 14));
+		lblNacimientoCompletar.setBounds(400, 376, 155, 20);
+		contentPanePrincipal.add(lblNacimientoCompletar);
 		
-		JLabel lblNombreDynamic = new JLabel("Prueba");
-		lblNombreDynamic.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblNombreDynamic.setBounds(700, 275, 100, 30);
-		contentPanePrincipal.add(lblNombreDynamic);
+		JLabel lblEdadCompletar = new JLabel("New label");
+		lblEdadCompletar.setFont(new Font("Dialog", Font.PLAIN, 14));
+		lblEdadCompletar.setBounds(700, 376, 155, 20);
+		contentPanePrincipal.add(lblEdadCompletar);
 		
-		JLabel lblEdadDynamic = new JLabel("Prueba");
-		lblEdadDynamic.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblEdadDynamic.setBounds(700, 365, 100, 30);
-		contentPanePrincipal.add(lblEdadDynamic);
+		JLabel lblNombreCompletar = new JLabel("New label");
+		lblNombreCompletar.setFont(new Font("Dialog", Font.PLAIN, 14));
+		lblNombreCompletar.setBounds(700, 286, 155, 20);
+		contentPanePrincipal.add(lblNombreCompletar);
 		
-		JLabel lblFechaDynamic = new JLabel("Prueba");
-		lblFechaDynamic.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblFechaDynamic.setBounds(400, 365, 100, 30);
-		contentPanePrincipal.add(lblFechaDynamic);
-		
-		JLabel lblSexoDynamic = new JLabel("Prueba");
-		lblSexoDynamic.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblSexoDynamic.setBounds(100, 365, 100, 30);
-		contentPanePrincipal.add(lblSexoDynamic);
+		JLabel lblNumDocumentoCompletar = new JLabel("New label");
+		lblNumDocumentoCompletar.setFont(new Font("Dialog", Font.PLAIN, 14));
+		lblNumDocumentoCompletar.setBounds(400, 286, 155, 20);
+		contentPanePrincipal.add(lblNumDocumentoCompletar);
 	
 		
+		List<JCheckBox> checkboxs = new ArrayList<JCheckBox>();
+		checkboxs.add(chckbxA);
+		checkboxs.add(chckbxB);
+		checkboxs.add(chckbxC);
+		checkboxs.add(chckbxD);
+		checkboxs.add(chckbxE);
+		checkboxs.add(chckbxF);
+		checkboxs.add(chckbxG);
+		
+		chckbxA.setEnabled(false);
+		chckbxB.setEnabled(false);
+		chckbxC.setEnabled(false);
+		chckbxD.setEnabled(false);
+		chckbxE.setEnabled(false);
+		chckbxF.setEnabled(false);
+		chckbxG.setEnabled(false);
+		
 		//BUTTON ACTIONS
-		
-		btnCargarLicencia.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Vista previa de la licencia");
-			}
-		});
-		
-		
+
 		btnVolver.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -270,7 +293,6 @@ public class EmitirLicencia extends JFrame {
 		btnBuscarTitular.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
 				String dni = textFieldNumeroDoc.getText().toString();
 				if(dni.isEmpty()) {
 					textFieldNumeroDoc.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
@@ -278,24 +300,62 @@ public class EmitirLicencia extends JFrame {
 				}
 				else if(verificarDNI(dni)) {
 					textFieldNumeroDoc.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-					JOptionPane.showMessageDialog(null, "se muestran los datos y se busca en BD");
-					
-					
-					/*
-					 * if(existeLicenciaParaDNI(dni)){
-					 * 		GestorLicencia.actualizarLicencia(unTitular, clase);
-					 *		 if(flag)OptionPane.showMessageDialog(null, "Licencia actualizada correctamente");
-					 * 		else OptionPane.showMessageDialog(null, "Error al actualizar la licencia, intente nuevamente.");
-					 * }
-					 * else{
-					 * String[] clase; //puede ser A y B juntas
-					 * Titular unTitular = GestorTitular.recuperarTitularDNI(dni)
-					 * boolean flag = GestorLicencia.darAltaLicencia(unTitular, clase)
-					 * 
-					 * 		if(flag)OptionPane.showMessageDialog(null, "Licencia cargada correctamente");
-					 *		 else OptionPane.showMessageDialog(null, "Error al cargar la licencia, intente nuevamente.");
-					 * }
-					 * */
+					titular = gTitular.recuperarTitularDNI(dni);
+					if(titular != null) {
+						btnCargarLicencia.setEnabled(true);
+						lblTipoDocumentoCompletar.setText(titular.getTipoDNITitular().toString());
+						lblNumDocumentoCompletar.setText(titular.getDni());
+						lblNombreCompletar.setText(titular.getNombre()+" "+titular.getApellido());
+						lblSexoCompletar.setText(titular.getSexo());
+						lblNacimientoCompletar.setText(titular.getNacimiento().toString());
+						//lblEdadCompletar.setText();
+						//completar datos
+						licencia = gLicencia.recuperarLicenciaDNI(titular.getDni());
+						chckbxA.setEnabled(true);
+						chckbxB.setEnabled(true);
+						chckbxC.setEnabled(true);
+						chckbxD.setEnabled(true);
+						chckbxE.setEnabled(true);
+						chckbxF.setEnabled(true);
+						chckbxG.setEnabled(true);
+						if(licencia!=null) {
+							List<Clase> clasesEnLicencia = gLicencia.recuperarClases(licencia.getIdLicencia());
+							for(Clase c : clasesEnLicencia) {
+								if(c.getLetra().equals("A")){
+									chckbxA.setSelected(true);
+									chckbxA.setEnabled(false);
+									}
+								if(c.getLetra().equals("B")){
+									chckbxB.setSelected(true);
+									chckbxB.setEnabled(false);
+									}
+								if(c.getLetra().equals("C")){
+									chckbxC.setSelected(true);
+									chckbxC.setEnabled(false);
+									}
+								if(c.getLetra().equals("D")){
+									chckbxD.setSelected(true);
+									chckbxD.setEnabled(false);
+									}
+								if(c.getLetra().equals("E")){
+									chckbxE.setSelected(true);
+									chckbxE.setEnabled(false);
+									}
+								if(c.getLetra().equals("F")){
+									chckbxF.setSelected(true);
+									chckbxF.setEnabled(false);
+									}
+								if(c.getLetra().equals("G")){
+									chckbxG.setSelected(true);
+									chckbxG.setEnabled(false);
+									}
+							}
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "NO EXISTE TITULAR CON EL DOCUMENTO: "+dni);
+						btnCargarLicencia.setEnabled(false);
+					}
 				}
 				else {
 					textFieldNumeroDoc.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
@@ -305,15 +365,32 @@ public class EmitirLicencia extends JFrame {
 			}
 		});
 		
+		btnCargarLicencia.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if(btnCargarLicencia.isEnabled()) {
+					List<String> letras = new ArrayList<String>();
+					if(licencia == null) {
+						
+						for(JCheckBox jc : checkboxs) {
+							if(jc.isEnabled() && jc.isSelected()) {
+								letras.add(jc.getText().toString());
+							}
+						}
+						
+						gLicencia.crearLicencia(titular, letras);
+					}
+									
+				}
+			}
+		});
 	}
 	
 	
-	private boolean verificarDNI(String dni) {
-		
+	private boolean verificarDNI(String dni) {		
 		String expDNI = "[1-9][0-9]+";
-		Pattern formatoDNI = Pattern.compile(expDNI);
-		
-		
+		//Pattern formatoDNI = Pattern.compile(expDNI);
 		if(dni.length()==7 || dni.length()==8) {
 			if(dni.matches(expDNI)) {
 				return true;

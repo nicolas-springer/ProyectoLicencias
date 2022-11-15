@@ -1,6 +1,8 @@
 package dominio;
 import java.time.LocalDate;
-
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -13,16 +15,23 @@ public class Licencia {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer idLicencia;
 	
-	//private List<Clase> clases; 
-	@OneToOne(optional = false)
-    @JoinColumn(name= "id_titular" , referencedColumnName = "idtitular")
-	private Titular titular; //metodos comentados
+	@ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "licencia_clase", 
+        joinColumns = { @JoinColumn(name = "idLicencia") }, 
+        inverseJoinColumns = { @JoinColumn(name = "idClase") }
+    )
+	private Set<Clase> clases; 
 	
+
+	@ManyToOne
+    @JoinColumn(name= "id_titular" , referencedColumnName = "idtitular")
+	private Titular titular; 
 	
 	@Column(name = "alta")
-	private LocalDate alta;
+	private Date alta;
 	@Column(name = "vencimiento")
-	private LocalDate vencimiento;
+	private Date vencimiento;
 	
 	public Integer getIdLicencia() {
 		return idLicencia;
@@ -36,22 +45,18 @@ public class Licencia {
 	public void setTitular(Titular titular) {
 		this.titular = titular;
 	}
-	public LocalDate getAlta() {
+	public Date getAlta() {
 		return alta;
 	}
-	public void setAlta(LocalDate alta) {
+	public void setAlta(Date alta) {
 		this.alta = alta;
 	}
-	public LocalDate getVencimiento() {
+	public Date getVencimiento() {
 		return vencimiento;
 	}
-	public void setVencimiento(LocalDate vencimiento) {
+	public void setVencimiento(Date vencimiento) {
 		this.vencimiento = vencimiento;
 	}
 
-
-	
-	
-	
 	
 }

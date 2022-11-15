@@ -1,6 +1,7 @@
 package dominio;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -22,19 +23,38 @@ public class Titular {
 	@Column
 	private String dni; 
 	@Column
-	private LocalDate nacimiento;
+	private Date nacimiento;
 	@Column
-	private String domicilio;
+	private String calle;
+	@Column
+	private String numero;
+	@Column
+	private String piso;
+	@Column
+	private String depto;
+	@Column
+	private String localidad;
 	@Column
 	private String grupoYFactorSanguineo; 
 	@Column
 	private Boolean esDonante;
 	@Column
-	private TipoDNI tipoDNITitular;
-	
-	
-	
-	
+	private String sexo;
+	@Column
+	private String tipoDNITitular;
+		
+	public String getPiso() {
+		return piso;
+	}
+	public void setPiso(String piso) {
+		this.piso = piso;
+	}
+	public String getDepto() {
+		return depto;
+	}
+	public void setDepto(String depto) {
+		this.depto = depto;
+	}
 	public Integer getIdTitular() {
 		return idTitular;
 	}
@@ -50,6 +70,12 @@ public class Titular {
 	public String getApellido() {
 		return apellido;
 	}
+	public String getSexo() {
+		return sexo;
+	}
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
@@ -58,18 +84,6 @@ public class Titular {
 	}
 	public void setDni(String dni) {
 		this.dni = dni;
-	}
-	public LocalDate getNacimiento() {
-		return nacimiento;
-	}
-	public void setNacimiento(LocalDate nacimiento) {
-		this.nacimiento = nacimiento;
-	}
-	public String getDomicilio() {
-		return domicilio;
-	}
-	public void setDomicilio(String domicilio) {
-		this.domicilio = domicilio;
 	}
 	public String getGrupoYFactorSanguineo() {
 		return grupoYFactorSanguineo;
@@ -80,15 +94,40 @@ public class Titular {
 	public Boolean getEsDonante() {
 		return esDonante;
 	}
+	public String getCalle() {
+		return calle;
+	}
+	public void setCalle(String calle) {
+		this.calle = calle;
+	}
+	public String getNumero() {
+		return numero;
+	}
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+	public String getLocalidad() {
+		return localidad;
+	}
+	public void setLocalidad(String localidad) {
+		this.localidad = localidad;
+	}
 	public void setEsDonante(Boolean esDonante) {
 		this.esDonante = esDonante;
 	}
-	public TipoDNI getTipoDNITitular() {
+	public String getTipoDNITitular() {
 		return tipoDNITitular;
 	}
-	public void setTipoDNITitular(TipoDNI tipoDNITitular) {
+	public void setTipoDNITitular(String tipoDNITitular) {
 		this.tipoDNITitular = tipoDNITitular;
 	}
+	public Date getNacimiento() {
+		return nacimiento;
+	}
+	public void setNacimiento(Date nacimiento) {
+		this.nacimiento = nacimiento;
+	}
+
 	
 	
 	
